@@ -31,3 +31,4 @@ docker compose down --remove-orphans
 * Добавлено логирование.
 * Подключён Prometheus (метрики называются `points_created_total`, `products_created_total`, `receptions_created_total`).
 * Реализован gRPC-метод.
+* Настроена генерация DTO для обработчиков из спецификации OpenAPI.
