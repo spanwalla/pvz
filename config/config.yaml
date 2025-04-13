@@ -1,0 +1,21 @@
+app:
+  name: 'pvz'
+  version: '1.0.0'
+
+grpc:
+  port: '3000'
+
+http:
+  port: '8080'
+
+prometheus:
+  port: '9000'
+
+logger:
+  level: 'debug'
+
+postgres:
+  pool_max: 15
+
+auth:
+  token_ttl: 30m

@@ -1,0 +1,43 @@
+volumes:
+  app_logs:
+    driver: local
+
+networks:
+  net:
+    driver: bridge
+
+services:
+  app:
+    build: .
+    environment:
+      CONFIG_PATH: config/config.yaml
+      PG_URL: postgres://test_user:test_password@postgres_test:5432/test_db
+      AUTH_JWT_SECRET_KEY: test_key
+    depends_on:
+      - postgres_test
+    volumes:
+      - app_logs:/logs
+    networks:
+      - net
+
+  postgres_test:
+    image: postgres:17.4-alpine3.21
+    environment:
+      POSTGRES_HOST: localhost
+      POSTGRES_PORT: 5432
+      POSTGRES_USER: test_user
+      POSTGRES_PASSWORD: test_password
+      POSTGRES_DB: test_db
+    tmpfs:
+      - /var/lib/postgresql/data
+    networks:
+      - net
+
+  integration:
+    build:
+      context: .
+      dockerfile: integration_test/Dockerfile
+    depends_on:
+      - app
+    networks:
+      - net

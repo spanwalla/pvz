@@ -1,0 +1,12 @@
+DROP TABLE IF EXISTS products;
+DROP TYPE IF EXISTS product_type;
+
+DROP TABLE IF EXISTS receptions;
+DROP TYPE IF EXISTS reception_status;
+
+DROP TABLE IF EXISTS points;
+
+DROP TABLE IF EXISTS cities;
+
+DROP TABLE IF EXISTS users;
+DROP TYPE IF EXISTS user_role;

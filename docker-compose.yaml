@@ -1,0 +1,41 @@
+volumes:
+  app_logs:
+    driver: local
+  postgres_data:
+    driver: local
+
+networks:
+  net:
+    driver: bridge
+
+services:
+  app:
+    build: .
+    environment:
+      CONFIG_PATH: config/config.yaml
+      PG_URL: postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:${POSTGRES_PORT}/${POSTGRES_DB}
+    env_file:
+      - .env
+    depends_on:
+      - postgres
+    ports:
+      - "127.0.0.1:3000:3000"
+      - "127.0.0.1:8080:8080"
+      - "127.0.0.1:9000:9000"
+    volumes:
+      - app_logs:/logs
+    networks:
+      - net
+
+  postgres:
+    image: postgres:17.4-alpine3.21
+    environment:
+      POSTGRES_HOST: localhost
+      POSTGRES_PORT: ${POSTGRES_PORT}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - net
